@@ -4,7 +4,9 @@ library("rlang")
 pkg <- list(
   meta = list(
     template = list(
-      secondary = "orange"
+      bslib = list(
+        secondary = "orange"
+      )
     )
   )
 )
@@ -31,5 +33,6 @@ code_sass <- "sass/syntax-highlighting.sass"
 all_sass <- paste(c(read_lines(pkgdown_sass), read_lines(code_sass)), collapse = "")
 pkgdown_css <- sass::sass_partial(all_sass, bs_theme)
 bs_theme <- bslib::bs_add_rules(bs_theme, pkgdown_css)
+bslib::bs_get_variables(bs_theme, "secondary")
+bslib::bs_get_variables(bs_theme, "primary")
 
-deps <- bslib::bs_theme_dependencies(bs_theme)

@@ -9,7 +9,7 @@ pkg <- list(
   )
 )
 
-bs_theme <- do.call(
+theme <- do.call(
   bslib::bs_theme,
   c(
     list(
@@ -26,10 +26,13 @@ bs_theme <- do.call(
 # How do I modify the code below to
 # a) use sass_file
 # b) put the default variables in the sass files not in a list above
-pkgdown_sass <- "sass/pkgdown.sass"
-code_sass <- "sass/syntax-highlighting.sass"
-all_sass <- paste(c(read_lines(pkgdown_sass), read_lines(code_sass)), collapse = "")
-pkgdown_css <- sass::sass_partial(all_sass, bs_theme)
-bs_theme <- bslib::bs_add_rules(bs_theme, pkgdown_css)
+pkgdown_css <- sass::sass_partial(
+  list(
+    sass::sass_file("sass/pkgdown.scss"),
+    sass::sass_file("sass/syntax-highlighting.scss")
+  ),
+  theme
+)
+bs_theme <- bslib::bs_add_rules(theme, pkgdown_css)
 
-deps <- bslib::bs_theme_dependencies(bs_theme)
+deps <- bslib::bs_theme_dependencies(theme)
